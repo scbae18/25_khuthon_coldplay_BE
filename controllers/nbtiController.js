@@ -110,6 +110,7 @@ exports.getQuestions = async (req, res) => {
 
 // 🔹 응답 제출 (GPT 없이 역할을 결과로 저장)
 exports.submitAnswers = async (req, res) => {
+    console.log('🔥 POST /nbti/submit 요청 도착:', req.body); 
   const { answers } = req.body;
 
   if (!answers) {
