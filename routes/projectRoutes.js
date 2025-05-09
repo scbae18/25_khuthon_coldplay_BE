@@ -12,7 +12,8 @@ const {
   createProject,
   getAllProjects,
   getProjectById,
-  updateProjectFunding
+  updateProjectFunding,
+  joinProject,
 } = require('../controllers/projectController');
 
 /**
@@ -134,5 +135,45 @@ router.get('/:id', getProjectById);
  *         description: 프로젝트를 찾을 수 없음
  */
 router.patch('/:id', updateProjectFunding);
+
+/**
+ * @swagger
+ * /projects/{id}/join:
+ *   patch:
+ *     summary: 프로젝트 팀 참가
+ *     tags: [Projects]
+ *     security:
+ *       - bearerAuth: []
+ *     parameters:
+ *       - in: path
+ *         name: id
+ *         required: true
+ *         schema:
+ *           type: string
+ *         description: 프로젝트 ID
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             required:
+ *               - role
+ *             properties:
+ *               role:
+ *                 type: string
+ *                 example: 브랜딩
+ *     responses:
+ *       200:
+ *         description: 참가 성공
+ *       400:
+ *         description: 중복 참가 or 마감됨
+ *       404:
+ *         description: 프로젝트 없음
+ */
+router.patch('/:id/join', protect, joinProject);
+
+
+
 
 module.exports = router;
