@@ -83,6 +83,24 @@ router.get('/questions', getQuestions);
  *                       type: string
  *                       description: "질문의 유형 (S, P, I, D, C, X, A, T 중 하나)"
  *                       example: "S"
+ *           example:
+ *             answers:
+ *               - { "id": 1, "value": 1, "type": "S" }
+ *               - { "id": 2, "value": 2, "type": "P" }
+ *               - { "id": 3, "value": 4, "type": "S" }
+ *               - { "id": 4, "value": 4, "type": "P" }
+ *               - { "id": 5, "value": 4, "type": "I" }
+ *               - { "id": 6, "value": 4, "type": "D" }
+ *               - { "id": 7, "value": 3, "type": "I" }
+ *               - { "id": 8, "value": 4, "type": "D" }
+ *               - { "id": 9, "value": 4, "type": "C" }
+ *               - { "id": 10, "value": 4, "type": "X" }
+ *               - { "id": 11, "value": 1, "type": "C" }
+ *               - { "id": 12, "value": 1, "type": "X" }
+ *               - { "id": 13, "value": 3, "type": "A" }
+ *               - { "id": 14, "value": 2, "type": "T" }
+ *               - { "id": 15, "value": 3, "type": "A" }
+ *               - { "id": 16, "value": 3, "type": "T" }
  *     responses:
  *       200:
  *         description: 계산된 NBTI 결과 반환
@@ -108,6 +126,7 @@ router.get('/questions', getQuestions);
  *       500:
  *         description: 결과 저장 중 오류 발생
  */
+
 
 router.post('/submit', protect, submitAnswers);
 
