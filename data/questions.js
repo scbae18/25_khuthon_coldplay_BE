@@ -1,7 +1,18 @@
 module.exports = [
-    { id: 1, question: "혼자 농사짓는 걸 좋아한다.", type: "I" },
-    { id: 2, question: "농사를 지을 땐 계획보단 감이 중요하다.", type: "P" },
-    { id: 3, question: "브랜딩보단 수확량이 중요하다.", type: "S" },
-    { id: 4, question: "의견을 나누기보단 혼자 결정하는 편이다.", type: "T" }
+    { id: 1, question: "수익보다 토양을 지키는 게 더 중요하다고 생각한다.", type:"S"},
+    { id: 2, question: "농약이나 화학비료 사용은 수익에 도움이 된다면 고려할 수 있다.", type:"P"},
+    { id: 3, question: "장기적으로 보면 환경을 배려하는 농업이 더 이득이라고 믿는다.", type:"S"},
+    { id: 4, question: "나는 투자 대비 수익률을 가장 중요한 지표로 본다.", type:"P"},
+    { id: 5, question: "직감적으로 어떤 작물을 심을지 떠오르는 편이다.", type:"I"},
+    { id: 6, question: "결정을 내릴 땐 수치나 자료를 반드시 참고하려 한다.", type:"D"},
+    { id: 7, question: "시장 분위기나 소비자 감성을 중요하게 생각한다.", type:"I"},
+    { id: 8, question: "내 선택은 데이터 분석이나 실험 결과를 바탕으로 이뤄진다.", type:"D"},
+    { id: 9, question: "새로운 농법보다는 검증된 방식이 더 믿음직하다.", type:"C"},
+    { id: 10, question: "남들이 안 하는 방법이라도, 재미있고 새롭다면 해본다.", type:"X"},
+    { id: 11, question: "나는 새로운 장비나 기술을 도입하는 데 신중한 편이다.", type:"C"},
+    { id: 12, question: "시도해보지 않으면 발전도 없다고 생각한다.", type:"X"},
+    { id: 13, question: "나는 혼자 책임지고 일하는 걸 선호한다.", type:"A"},
+    { id: 14, question: "협업이나 공동 작업이 농업의 미래라고 본다.", type:"T"},
+    { id: 15, question: "혼자 일할 때 속도도 효율도 더 잘 나온다.", type:"A"},
+    { id: 16, question: "다른 사람들과 의견을 나누는 과정이 중요하다고 생각한다.", type:"T"},
   ];
-  
