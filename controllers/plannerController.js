@@ -2,10 +2,10 @@ const Planner = require('../models/Planner');
 
 exports.createPlanner = async (req, res) => {
   try {
-    const { goal, crop, region, budget, nbti, projectRef } = req.body;
+    const { goal, crop, region, budget, nbti } = req.body;
     const userId = req.user.id;
 
-    if (!goal || !crop || !region || !budget || !nbti || !projectRef) {
+    if (!goal || !crop || !region || !budget || !nbti) {
       return res.status(400).json({ message: '모든 필드를 입력해야 합니다.' });
     }
 
@@ -15,7 +15,7 @@ exports.createPlanner = async (req, res) => {
       region,
       budget,
       nbti,
-      projectRef,
+      projectRef:'681e81778df0748267e4fa0d',
       creator: userId
     });
 
