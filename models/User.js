@@ -7,7 +7,7 @@ const userSchema = new mongoose.Schema({
   password: { type: String, required: true },
 
   role: { type: String, default: null }, 
-  crops: { type: Object, default: {} }, 
+  crops: { type: [String], default: [] }, 
 
   // ✅ 프로젝트 참여 기록
   joinedProjects: [

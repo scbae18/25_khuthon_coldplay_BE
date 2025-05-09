@@ -94,7 +94,9 @@ function calcNBIT(answers){
 exports.getInfo = async (req, res) => {
   const {role, crops}=req.body;
   const userId=req.user.id;
-
+  if (!Array.isArray(crops)) {
+    return res.status(400).json({ message: "crops는 문자열 배열이어야 합니다." });
+  }
   try{
     await User.findByIdAndUpdate(userId, {
       role,
