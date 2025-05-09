@@ -13,7 +13,7 @@ const {
   getAllProjects,
   getProjectById,
   updateProjectFunding,
-  joinProject,
+  joinProject
 } = require('../controllers/projectController');
 
 /**
@@ -172,8 +172,5 @@ router.patch('/:id', updateProjectFunding);
  *         description: 프로젝트 없음
  */
 router.patch('/:id/join', protect, joinProject);
-
-
-
 
 module.exports = router;

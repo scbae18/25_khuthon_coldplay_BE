@@ -32,6 +32,35 @@ exports.createProject = async (req, res) => {
       console.error(err);
       res.status(500).json({ message: '프로젝트 생성 중 오류 발생' });
     }
+
+    exports.addFarmPlan = async (req, res) => {
+        try {
+          const { location, crops, fundingGoal } = req.body;
+          const project = await Project.findById(req.params.id);
+      
+          if (!project) {
+            return res.status(404).json({ message: '프로젝트를 찾을 수 없습니다.' });
+          }
+      
+          project.farmPlan = {
+            location,
+            crops,
+            fundingGoal
+          };
+          project.isCompleted = true;
+      
+          await project.save();
+      
+          res.json({
+            message: '농사 계획이 성공적으로 등록되었습니다.',
+            project
+          });
+        } catch (err) {
+          console.error(err);
+          res.status(500).json({ message: '농사 계획 등록 중 오류 발생' });
+        }
+      };
+      
   };
   
   
@@ -172,4 +201,5 @@ exports.getProjectById = async (req, res) => {
       res.status(500).json({ message: '팀 참가 처리 중 오류' });
     }
   };
-  
+
+ 
