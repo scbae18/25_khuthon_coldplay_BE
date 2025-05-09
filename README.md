@@ -6,6 +6,17 @@
 ## 🔧 주요 기능
 
 ## ⚙️ 기술 스택
+✅ 프론트엔드 (Frontend)
+React.js – 사용자 인터페이스 구현
+Figma – 와이어프레임 및 UI 디자인 참고
+✅ 백엔드 (Backend)
+Node.js + Express.js – 서버 및 API 구현
+MongoDB (with Mongoose) – NoSQL 데이터베이스
+✅ 배포 및 협업
+Git / GitHub – 형상관리 및 협업
+EC2 (AWS) – 서버 배포 및 운영
+MongoDB Atlas – 클라우드 DB 서비스
+PM2 – Node.js 앱 프로세스 관리
 
 ## API
 ## ✨ Auth - 인증
