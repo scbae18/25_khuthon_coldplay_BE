@@ -17,12 +17,36 @@ const {
 /**
  * @swagger
  * /nbti/questions:
- *   get:
- *     summary: 전체 NBTI 질문 목록 조회
+ *   post:
+ *     summary: 사용자 역할 및 관심 작물 저장 후 NBTI 질문 목록 제공
  *     tags: [NBTI]
+ *     security:
+ *       - bearerAuth: []
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             required:
+ *               - role
+ *               - crops
+ *             properties:
+ *               role:
+ *                 type: string
+ *                 description: 사용자의 역할 (예: 농사할 사람, 브랜딩할 사람, 노동자 등)
+ *                 example: 브랜딩할 사람
+ *               crops:
+ *                 type: object
+ *                 description: 관심 작물 정보 (복수 가능)
+ *                 example:
+ *                   main: 감자
+ *                   interests:
+ *                     - 고구마
+ *                     - 파프리카
  *     responses:
  *       200:
- *         description: NBTI 질문 리스트 반환
+ *         description: NBTI 질문 목록 반환
  *         content:
  *           application/json:
  *             schema:
@@ -38,12 +62,17 @@ const {
  *                     example: 수익보다 토양을 지키는 게 더 중요하다고 생각한다.
  *                   type:
  *                     type: string
- *                     description: 질문 유형 (S, P, I, D, C, X, A, T)
- *                     example: "S"
+ *                     description: 질문 유형 (S, P, I, D, C, X, A, T 중 하나)
+ *                     example: S
+ *       400:
+ *         description: 요청 값 누락 또는 형식 오류
+ *       500:
+ *         description: 서버 오류 또는 사용자 정보 저장 실패
  */
 
 
-router.get('/questions', getQuestions);
+
+router.post('/questions',protect, getQuestions);
 
 /**
  * @swagger

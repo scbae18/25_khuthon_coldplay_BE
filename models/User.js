@@ -6,6 +6,9 @@ const userSchema = new mongoose.Schema({
   email: { type: String, required: true, unique: true },
   password: { type: String, required: true },
 
+  role: { type: String, default: null }, 
+  crops: { type: Object, default: {} }, 
+
   // ✅ 프로젝트 참여 기록
   joinedProjects: [
     {
