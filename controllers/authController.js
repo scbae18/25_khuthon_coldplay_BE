@@ -59,12 +59,20 @@ exports.getMe = async (req, res) => {
       .populate('joinedProjects.project', 'title description');
 
     const nbti = await NbtiResult.findOne({ userId: req.user.id });
+    const activeProjects = (user.joinedProjects || []).filter(p => p.project);
 
     res.json({
       name: user.name,
       email: user.email,
+      crops: user.crops || {},
+      role: user.role || null,
       nbti: nbti ? nbti.result : null,
-      joinedProjects: user.joinedProjects || []
+      joinedProjects: activeProjects.map(p => ({
+        title: p.project.title,
+        teamRecruit: Object.fromEntries(p.project.teamRecruit || []),
+        teamCurrent: Object.fromEntries(p.project.teamCurrent || []),
+        role: p.role
+      }))
     });
   } catch (err) {
     console.error(err);
