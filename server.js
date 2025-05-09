@@ -1,4 +1,5 @@
 require('dotenv').config();
+const mongoose = require('mongoose');
 const app = require('./app');
 const connectDB = require('./config/db');
 
@@ -6,7 +7,6 @@ const PORT = process.env.PORT || 5000;
 
 connectDB().then(() => {
   app.listen(PORT, () => {
-    console.log(`✅ 서버 실행 중: http://localhost:${PORT}`);
-    console.log(`📘 Swagger 문서: http://localhost:${PORT}/api-docs`);
+    console.log(`✅ Server running on http://localhost:${PORT}`);
   });
 });

@@ -2,6 +2,7 @@ const express = require('express');
 const cors = require('cors');
 const morgan = require('morgan');
 const authRoutes = require('./routes/authRoutes');
+const plannerRoutes = require('./routes/plannerRoutes');
 const { swaggerUi, specs } = require('./swagger');
 
 
@@ -20,5 +21,6 @@ app.use('/nbti', nbtiRoutes);
 const projectRoutes = require('./routes/projectRoutes');
 app.use('/projects', projectRoutes);
 
+app.use('/planners', plannerRoutes);
 
 module.exports = app;
