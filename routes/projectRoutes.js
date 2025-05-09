@@ -13,7 +13,7 @@ const {
   getAllProjects,
   getProjectById,
   updateProjectFunding,
-  joinProject,
+  joinProject
 } = require('../controllers/projectController');
 const {
   getFundProjects,
