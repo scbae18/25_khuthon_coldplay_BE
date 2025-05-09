@@ -70,4 +70,7 @@ exports.getMe = async (req, res) => {
     console.error(err);
     res.status(500).json({ message: '사용자 정보 조회 실패' });
   }
+  
 };
+
+
