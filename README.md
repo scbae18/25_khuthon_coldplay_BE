@@ -1,9 +1,10 @@
-# 🌱 2025 쿠톤(KHUThon) Coldplay 팀 - Backend
-
-
+# 🌱FARM:ON - "농업을 ON하다, 가능성을 심다."
+ 2025 쿠톤(KHUThon) Coldplay 팀 - Backend
 ## 프로젝트 개요
 
 ## 🔧 주요 기능
+1. 
+
 
 ## ⚙️ 기술 스택
 ✅ 프론트엔드 (Frontend)
@@ -110,10 +111,7 @@ POST /projects
 }
 ```
 
-
 ## 👨‍👩‍👧‍👦 팀원
-김재욱
-박태권
-배승찬
-이지민
-## 📌 기타
+Backend: 박태권, 배승찬
+
+Frontend: 김재욱, 이지민
