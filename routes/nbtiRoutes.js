@@ -127,15 +127,31 @@ router.post('/submit', protect, submitAnswers);
  *             schema:
  *               type: object
  *               properties:
- *                 role:
+ *                 _id:
  *                   type: string
- *                   example: 브랜드매니저
+ *                   example: "6648f234afdf9c1e3c6c7a9a"
+ *                 userId:
+ *                   type: string
+ *                   example: "6648f1a8afdf9c1e3c6c7a99"
  *                 result:
- *                   type: string
- *                   example: 브랜드매니저형
+ *                   type: object
+ *                   properties:
+ *                     nbti:
+ *                       type: string
+ *                       example: "PDXT"
+ *                     nbti_name:
+ *                       type: string
+ *                       example: "토마토형"
+ *                     explain:
+ *                       type: string
+ *                       example: "팀과 함께 빠르게 움직이는 테크농업 CEO형."
+ *                 __v:
+ *                   type: integer
+ *                   example: 0
  *       404:
  *         description: 결과 없음
  */
+
 router.get('/result', protect, getResult);
 
 module.exports = router;
