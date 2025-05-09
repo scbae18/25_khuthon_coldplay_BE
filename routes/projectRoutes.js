@@ -178,7 +178,6 @@ router.patch('/:id', updateProjectFunding);
  */
 router.patch('/:id/join', protect, joinProject);
 
-router.get('/fund', getFundProjects);
 
 /**
  * @swagger
@@ -290,6 +289,6 @@ router.get('fund/:id',getPlanner);
  *       500:
  *         description: 서버 오류로 인해 계획서 조회 실패
  */
-
+router.get('/fund', getFundProjects);
 
 module.exports = router;

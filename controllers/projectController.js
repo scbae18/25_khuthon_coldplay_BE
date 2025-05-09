@@ -1,6 +1,6 @@
 const Project = require('../models/Project');
 const User = require('../models/User');
-const Nbti = require('../models/NbtiResult');
+const NbtiResult = require('../models/NbtiResult');
 const mongoose = require('mongoose');
 
 exports.createProject = async (req, res) => {
@@ -64,65 +64,87 @@ exports.createProject = async (req, res) => {
       
   };
   
-  
+  ;
 
-// 전체 프로젝트 목록 조회
 exports.getAllProjects = async (req, res) => {
-    try {
-      const projects = await Project.find({BuildSuccess:false}).populate('owner', 'name');
+  try {
+    const projects = await Project.find().populate('owner', 'name');
 
-      const projectsWithNbti = await Promise.all(
-        projects.map(async (project) => {
-          const nbti = await NbtiResult.findOne({ userId: project.owner._id });
+    const projectsWithDetails = await Promise.all(
+      projects.map(async (project) => {
+        const nbti = await NbtiResult.findOne({ userId: project.owner._id });
 
-          return {
-            ...project.toObject(),
-            owner: {
-              ...project.owner.toObject(),
-              nbti: nbti?.result?.nbti || null,
-            }
-          };
-        })
-      );
+        const teamRecruit = Object.fromEntries(project.teamRecruit || []);
+        const teamCurrent = Object.fromEntries(project.teamCurrent || []);
 
-      res.json(projectsWithNbti);
-    } catch (err) {
-      console.error(err);
-      res.status(500).json({ message: '프로젝트 목록 조회 실패' });
-    }
-  };
+        return {
+          _id: project._id,
+          title: project.title,
+          description: project.description,
+          currentFund: project.currentFund,
+          participantCount: project.participantCount,
+          createdAt: project.createdAt,
+          teamRecruit,
+          teamCurrent,
+          owner: {
+            _id: project.owner._id,
+            name: project.owner.name,
+            nbti: nbti?.result?.nbti || null,
+            nbti_name: nbti?.result?.nbti_name || null
+          }
+        };
+      })
+    );
+
+    res.json(projectsWithDetails);
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ message: '프로젝트 목록 조회 실패' });
+  }
+};
+
   
   // 특정 프로젝트 상세 조회
-exports.getProjectById = async (req, res) => {
+  const Planner = require('../models/Planner');
+  
+  exports.getProjectById = async (req, res) => {
     try {
       const project = await Project.findById(req.params.id).populate('owner', 'name');
       if (!project) {
         return res.status(404).json({ message: '프로젝트를 찾을 수 없습니다.' });
       }
-      
+  
       const nbti = await NbtiResult.findOne({ userId: project.owner._id });
-
+  
       const ownerWithNbti = {
         _id: project.owner._id,
         name: project.owner.name,
         nbti: nbti?.result?.nbti || null,
-        nbti_name: nbti?.result?.nbti_name || null,
-        explain: nbti?.result?.explain || null
+        nbti_name: nbti?.result?.nbti_name || null
       };
-
+  
       const teamRecruit = Object.fromEntries(project.teamRecruit || []);
       const teamCurrent = Object.fromEntries(project.teamCurrent || []);
       const teamMembersRaw = Object.fromEntries(project.teamMembers || []);
-  
       const populatedTeamMembers = {};
   
       for (const [role, userIds] of Object.entries(teamMembersRaw)) {
         const users = await User.find({ _id: { $in: userIds } }, 'name');
-        populatedTeamMembers[role] = users.map(user => ({
-          _id: user._id,
-          name: user.name
+  
+        const enrichedUsers = await Promise.all(users.map(async (user) => {
+          const nbtiResult = await NbtiResult.findOne({ userId: user._id });
+          return {
+            _id: user._id,
+            name: user.name,
+            nbti: nbtiResult?.result?.nbti || null,
+            nbti_name: nbtiResult?.result?.nbti_name || null
+          };
         }));
+  
+        populatedTeamMembers[role] = enrichedUsers;
       }
+  
+      const planner = await Planner.findOne({ projectRef: project._id });
   
       res.json({
         _id: project._id,
@@ -134,7 +156,8 @@ exports.getProjectById = async (req, res) => {
         currentFund: project.currentFund,
         participantCount: project.participantCount,
         createdAt: project.createdAt,
-        teamMembers: populatedTeamMembers
+        teamMembers: populatedTeamMembers,
+        planner
       });
   
     } catch (err) {
@@ -142,6 +165,7 @@ exports.getProjectById = async (req, res) => {
       res.status(500).json({ message: '프로젝트 조회 실패' });
     }
   };
+
     
   // 펀딩 현황 업데이트
   exports.updateProjectFunding = async (req, res) => {

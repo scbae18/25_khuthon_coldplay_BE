@@ -15,8 +15,7 @@ exports.getFundProjects = async (req, res) => {
 
 exports.getPlanner = async(req, res) => {
     try{
-        const planner = await Planner.find({projectRef: req.params.id}).populate('creator', 'name email')
-      .populate('nbtiRef');
+        const planner = await Planner.find({projectRef: req.params.id}).populate('creator', 'name email');
 
       res.json(planner)
     }catch (err){
