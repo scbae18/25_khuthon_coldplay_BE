@@ -35,7 +35,7 @@ function calcNBIT(answers){
   let nbti_name="";
   let explain="";
 
-  const nbti=(Scores.SP<=12 ? 'S' : 'P')+(Scores.ID<=12 ? 'I' : 'D') +(Scores.CX<=12 ? 'C' : 'X') +(Scores.AT<=12 ? 'A' : 'T')
+  const nbti=(Scores.SP<12 ? 'S' : 'P')+(Scores.ID<12 ? 'I' : 'D') +(Scores.CX<12 ? 'C' : 'X') +(Scores.AT<12 ? 'A' : 'T')
   if(nbti == "SICA"){
     nbti_name = "고구마형"
     explain = "따뜻하고 감성적인 전통파, 조용히 자기 길을 감."
