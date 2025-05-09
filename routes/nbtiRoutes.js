@@ -18,36 +18,12 @@ const {
 /**
  * @swagger
  * /nbti/questions:
- *   post:
- *     summary: 사용자 역할 및 관심 작물 저장 후 NBTI 질문 목록 제공
+ *   get:
+ *     summary: NBTI 질문 목록 조회
  *     tags: [NBTI]
- *     security:
- *       - bearerAuth: []
- *     requestBody:
- *       required: true
- *       content:
- *         application/json:
- *           schema:
- *             type: object
- *             required:
- *               - role
- *               - crops
- *             properties:
- *               role:
- *                 type: string
- *                 description: 사용자의 역할 (예: 농사할 사람, 브랜딩할 사람, 노동자 등)
- *                 example: 브랜딩할 사람
- *               crops:
- *                 type: object
- *                 description: 관심 작물 정보 (복수 가능)
- *                 example:
- *                   main: 감자
- *                   interests:
- *                     - 고구마
- *                     - 파프리카
  *     responses:
  *       200:
- *         description: NBTI 질문 목록 반환
+ *         description: 질문 목록 반환
  *         content:
  *           application/json:
  *             schema:
@@ -64,17 +40,63 @@ const {
  *                   type:
  *                     type: string
  *                     description: 질문 유형 (S, P, I, D, C, X, A, T 중 하나)
- *                     example: S
- *       400:
- *         description: 요청 값 누락 또는 형식 오류
+*                     example: S
  *       500:
- *         description: 서버 오류 또는 사용자 정보 저장 실패
+ *         description: 질문 데이터를 불러오는 중 오류 발생
+ */
+
+
+router.get('/questions', getQuestions)
+
+/**
+ * @swagger
+ * /nbti/info:
+ *   post:
+ *     summary: 사용자 역할 및 관심 작물 정보 저장
+ *     tags: [NBTI]
+ *     security:
+ *       - bearerAuth: []
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             required:
+ *               - role
+ *               - crops
+ *             properties:
+ *               role:
+ *                 type: string
+ *                 description: 사용자 역할 (예: 농사할 사람, 브랜딩할 사람, 노동자 등)
+ *                 example: 브랜딩할 사람
+ *               crops:
+ *                 type: object
+ *                 description: 관심 작물 정보 (주 작물 및 관심 작물 목록)
+ *                 example:
+ *                   main: 감자
+ *                   interests:
+ *                     - 고구마
+ *                     - 파프리카
+ *     responses:
+ *       200:
+ *         description: 사용자 정보 저장 완료
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 message:
+ *                   type: string
+ *                   example: 저장 완료
+ *       500:
+ *         description: 서버 오류 또는 저장 실패
  */
 
 
 
 router.post('/info',protect, getInfo);
-router.get('/questions', getQuestions)
+
 
 /**
  * @swagger
