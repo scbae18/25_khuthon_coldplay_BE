@@ -39,7 +39,7 @@ exports.createProject = async (req, res) => {
 // 전체 프로젝트 목록 조회
 exports.getAllProjects = async (req, res) => {
     try {
-      const projects = await Project.find().populate('owner', 'name');
+      const projects = await Project.find({BuildSuccess:false}).populate('owner', 'name');
       res.json(projects);
     } catch (err) {
       console.error(err);
