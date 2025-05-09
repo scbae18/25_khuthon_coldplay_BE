@@ -11,7 +11,8 @@ const protect = require('../middlewares/authMiddleware');
 const {
   getQuestions,
   submitAnswers,
-  getResult
+  getResult,
+  getInfo
 } = require('../controllers/nbtiController');
 
 /**
@@ -72,7 +73,8 @@ const {
 
 
 
-router.post('/questions',protect, getQuestions);
+router.post('/info',protect, getInfo);
+router.get('/questions', getQuestions)
 
 /**
  * @swagger

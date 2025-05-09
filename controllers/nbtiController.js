@@ -90,21 +90,23 @@ function calcNBIT(answers){
 }
 
 // 🔹 역할별 질문 제공
-exports.getQuestions = async (req, res) => {
+
+exports.getInfo = async (req, res) => {
   const {role, crops}=req.body;
-  userId=req.user.id;
+  const userId=req.user.id;
 
   try{
-    await User.findbyIdAndUpdate(userId, {
+    await User.findByIdAndUpdate(userId, {
       role,
       crops
     });
-
-    res.json(questions);
+    res.json({ message: '저장 완료' });
   }catch (err){
     console.error(err);
     res.status(500).json({ message: "실패" });
   }
+};
+exports.getQuestions = async (req, res) => {
   res.json(questions);
 };
 
