@@ -25,7 +25,8 @@ exports.createProject = async (req, res) => {
         owner: req.user.id,
         teamRecruit,
         teamCurrent,
-        teamMembers
+        teamMembers,
+        BuildSuccess:false
       });
   
       res.status(201).json(project);
@@ -86,6 +87,7 @@ exports.getAllProjects = async (req, res) => {
           createdAt: project.createdAt,
           teamRecruit,
           teamCurrent,
+          BuildSuccess:project.BuildSuccess,
           owner: {
             _id: project.owner._id,
             name: project.owner.name,
