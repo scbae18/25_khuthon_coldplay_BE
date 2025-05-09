@@ -13,19 +13,19 @@ function calcNBIT(answers){
     const {id, value, type} = ans;
 
     if(type=="S"){
-      Scores.SP+=(5-value);
+      Scores.SP+=(6-value);
     }else if(type=="P"){
       Scores.SP+=value;
     }else if(type=="I"){
-      Scores.ID+=(5-value);
+      Scores.ID+=(6-value);
     }else if(type=="D"){
       Scores.ID+=value;
     }else if(type=="C"){
-      Scores.CX+=(5-value);
+      Scores.CX+=(6-value);
     }else if(type=="X"){
       Scores.CX+=value;
     }else if(type=="A"){
-      Scores.AT+=(5-value);
+      Scores.AT+=(6-value);
     }else if(type=="T"){
       Scores.AT+=value;
     }
@@ -34,7 +34,7 @@ function calcNBIT(answers){
   let nbti_name="";
   let explain="";
 
-  const nbti=(Scores.SP<=10 ? 'S' : 'P')+(Scores.ID<=10 ? 'I' : 'D') +(Scores.CX<=10 ? 'C' : 'X') +(Scores.AT<=10 ? 'A' : 'T')
+  const nbti=(Scores.SP<=12 ? 'S' : 'P')+(Scores.ID<=12 ? 'I' : 'D') +(Scores.CX<=12 ? 'C' : 'X') +(Scores.AT<=12 ? 'A' : 'T')
   if(nbti == "SICA"){
     nbti_name = "고구마형"
     explain = "따뜻하고 감성적인 전통파, 조용히 자기 길을 감."
