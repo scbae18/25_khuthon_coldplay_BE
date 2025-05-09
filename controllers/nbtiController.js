@@ -1,5 +1,6 @@
 const NbtiResult = require('../models/NbtiResult');
 const questions = require('../data/questions');
+const User = require('../models/User');
 
 function calcNBIT(answers){
   const Scores = {
