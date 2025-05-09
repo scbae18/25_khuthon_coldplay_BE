@@ -18,18 +18,11 @@ const {
  * @swagger
  * /nbti/questions:
  *   get:
- *     summary: 선택한 역할에 맞는 NBTI 질문 목록 조회
+ *     summary: 전체 NBTI 질문 목록 조회
  *     tags: [NBTI]
- *     parameters:
- *       - in: query
- *         name: role
- *         required: true
- *         schema:
- *           type: string
- *         description: "사용자 선택 역할 (예: 농부, 브랜드매니저, 일꾼 등)"
  *     responses:
  *       200:
- *         description: 역할별 질문 리스트 반환
+ *         description: NBTI 질문 리스트 반환
  *         content:
  *           application/json:
  *             schema:
@@ -42,15 +35,21 @@ const {
  *                     example: 1
  *                   question:
  *                     type: string
- *                     example: 밭 고르기는 직접 눈으로 확인해야 한다.
+ *                     example: 수익보다 토양을 지키는 게 더 중요하다고 생각한다.
+ *                   type:
+ *                     type: string
+ *                     description: 질문 유형 (S, P, I, D, C, X, A, T)
+ *                     example: "S"
  */
+
+
 router.get('/questions', getQuestions);
 
 /**
  * @swagger
  * /nbti/submit:
  *   post:
- *     summary: NBTI 응답 제출 및 결과 생성 (역할 기반)
+ *     summary: NBTI 응답 제출 및 결과 생성
  *     tags: [NBTI]
  *     security:
  *       - bearerAuth: []
@@ -61,39 +60,55 @@ router.get('/questions', getQuestions);
  *           schema:
  *             type: object
  *             required:
- *               - role
  *               - answers
  *             properties:
- *               role:
- *                 type: string
- *                 example: 농부
  *               answers:
  *                 type: array
- *                 description: 역할별 질문에 대한 응답 배열
+ *                 description: 질문에 대한 응답 배열
  *                 items:
  *                   type: object
+ *                   required:
+ *                     - id
+ *                     - value
+ *                     - type
  *                   properties:
  *                     id:
  *                       type: integer
  *                       example: 1
- *                     question:
- *                       type: string
- *                       example: 밭 고르기는 직접 눈으로 확인해야 한다.
  *                     value:
- *                       type: boolean
- *                       example: true
+ *                       type: integer
+ *                       enum: [1, 2, 3, 4]
+ *                       example: 3
+ *                     type:
+ *                       type: string
+ *                       description: "질문의 유형 (S, P, I, D, C, X, A, T 중 하나)"
+ *                       example: "S"
  *     responses:
  *       200:
- *         description: 역할 이름을 기반으로 결과 문자열 반환
+ *         description: 계산된 NBTI 결과 반환
  *         content:
  *           application/json:
  *             schema:
  *               type: object
  *               properties:
  *                 result:
- *                   type: string
- *                   example: 농부형
+ *                   type: object
+ *                   properties:
+ *                     nbti:
+ *                       type: string
+ *                       example: "PDXT"
+ *                     nbti_name:
+ *                       type: string
+ *                       example: "토마토형"
+ *                     explain:
+ *                       type: string
+ *                       example: "팀과 함께 빠르게 움직이는 테크농업 CEO형."
+ *       400:
+ *         description: answers가 누락되었을 경우
+ *       500:
+ *         description: 결과 저장 중 오류 발생
  */
+
 router.post('/submit', protect, submitAnswers);
 
 /**
@@ -112,15 +127,31 @@ router.post('/submit', protect, submitAnswers);
  *             schema:
  *               type: object
  *               properties:
- *                 role:
+ *                 _id:
  *                   type: string
- *                   example: 브랜드매니저
+ *                   example: "6648f234afdf9c1e3c6c7a9a"
+ *                 userId:
+ *                   type: string
+ *                   example: "6648f1a8afdf9c1e3c6c7a99"
  *                 result:
- *                   type: string
- *                   example: 브랜드매니저형
+ *                   type: object
+ *                   properties:
+ *                     nbti:
+ *                       type: string
+ *                       example: "PDXT"
+ *                     nbti_name:
+ *                       type: string
+ *                       example: "토마토형"
+ *                     explain:
+ *                       type: string
+ *                       example: "팀과 함께 빠르게 움직이는 테크농업 CEO형."
+ *                 __v:
+ *                   type: integer
+ *                   example: 0
  *       404:
  *         description: 결과 없음
  */
+
 router.get('/result', protect, getResult);
 
 module.exports = router;
