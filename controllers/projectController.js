@@ -1,5 +1,6 @@
 const Project = require('../models/Project');
 const User = require('../models/User');
+const Nbti = require('../models/NbtiResult');
 const mongoose = require('mongoose');
 
 exports.createProject = async (req, res) => {
@@ -69,7 +70,22 @@ exports.createProject = async (req, res) => {
 exports.getAllProjects = async (req, res) => {
     try {
       const projects = await Project.find({BuildSuccess:false}).populate('owner', 'name');
-      res.json(projects);
+
+      const projectsWithNbti = await Promise.all(
+        projects.map(async (project) => {
+          const nbti = await NbtiResult.findOne({ userId: project.owner._id });
+
+          return {
+            ...project.toObject(),
+            owner: {
+              ...project.owner.toObject(),
+              nbti: nbti?.result?.nbti || null,
+            }
+          };
+        })
+      );
+
+      res.json(projectsWithNbti);
     } catch (err) {
       console.error(err);
       res.status(500).json({ message: '프로젝트 목록 조회 실패' });
@@ -83,7 +99,17 @@ exports.getProjectById = async (req, res) => {
       if (!project) {
         return res.status(404).json({ message: '프로젝트를 찾을 수 없습니다.' });
       }
-  
+      
+      const nbti = await NbtiResult.findOne({ userId: project.owner._id });
+
+      const ownerWithNbti = {
+        _id: project.owner._id,
+        name: project.owner.name,
+        nbti: nbti?.result?.nbti || null,
+        nbti_name: nbti?.result?.nbti_name || null,
+        explain: nbti?.result?.explain || null
+      };
+
       const teamRecruit = Object.fromEntries(project.teamRecruit || []);
       const teamCurrent = Object.fromEntries(project.teamCurrent || []);
       const teamMembersRaw = Object.fromEntries(project.teamMembers || []);
@@ -102,7 +128,7 @@ exports.getProjectById = async (req, res) => {
         _id: project._id,
         title: project.title,
         description: project.description,
-        owner: project.owner,
+        owner: ownerWithNbti,
         teamRecruit,
         teamCurrent,
         currentFund: project.currentFund,
