@@ -1,32 +1,37 @@
-const questions = require('../data/questions');
 const NbtiResult = require('../models/NbtiResult');
+const roleQuestions = require('../data/roleQuestions');
 
-// 🔹 질문지 제공
+// 🔹 역할별 질문 제공
 exports.getQuestions = (req, res) => {
-  res.json(questions);
+  const { role } = req.query;
+  if (!role || !roleQuestions[role]) {
+    return res.status(400).json({ message: '유효한 역할이 필요합니다.' });
+  }
+  res.json(roleQuestions[role]);
 };
 
-// 🔹 응답 제출
+// 🔹 응답 제출 (GPT 없이 역할을 결과로 저장)
 exports.submitAnswers = async (req, res) => {
-  const { answers } = req.body; // [{ id: 1, value: true }, ...]
-  const counts = { I: 0, E: 0, P: 0, J: 0, S: 0, N: 0, T: 0, F: 0 };
+  const { role, answers } = req.body;
 
-  for (const answer of answers) {
-    const q = questions.find(q => q.id === answer.id);
-    if (!q) continue;
-    const target = answer.value ? q.type : getOpposite(q.type);
-    counts[target]++;
+  if (!role || !answers || !Array.isArray(answers)) {
+    return res.status(400).json({ message: 'role과 answers가 필요합니다.' });
   }
 
-  const result = `${counts.I > counts.E ? 'I' : 'E'}${counts.S > counts.N ? 'S' : 'N'}${counts.T > counts.F ? 'T' : 'F'}${counts.J > counts.P ? 'J' : 'P'}`;
+  try {
+    const result = `${role}형`; // 예: '농부형', '브랜드매니저형'
 
-  await NbtiResult.findOneAndUpdate(
-    { userId: req.user.id },
-    { result },
-    { upsert: true, new: true }
-  );
+    await NbtiResult.findOneAndUpdate(
+      { userId: req.user.id },
+      { role, result },
+      { upsert: true, new: true }
+    );
 
-  res.json({ result });
+    res.json({ result });
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ message: '결과 저장 중 오류 발생' });
+  }
 };
 
 // 🔹 결과 조회
@@ -35,9 +40,3 @@ exports.getResult = async (req, res) => {
   if (!result) return res.status(404).json({ message: '결과 없음' });
   res.json(result);
 };
-
-// 🔧 반대 항목 계산
-function getOpposite(type) {
-  const map = { I: 'E', E: 'I', P: 'J', J: 'P', S: 'N', N: 'S', T: 'F', F: 'T' };
-  return map[type] || '';
-}
