@@ -68,7 +68,7 @@ router.get('/questions', getQuestions)
  *             properties:
  *               role:
  *                 type: string
- *                 description: 사용자 역할 (예: 농사할 사람, 브랜딩할 사람, 노동자 등)
+ *                 description: "사용자 역할 (예: 농사할 사람, 브랜딩할 사람, 노동자 등)"
  *                 example: 브랜딩할 사람
  *               crops:
  *                 type: object
