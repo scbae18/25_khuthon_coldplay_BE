@@ -17,5 +17,8 @@ app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(specs));
 const nbtiRoutes = require('./routes/nbtiRoutes');
 app.use('/nbti', nbtiRoutes);
 
+const projectRoutes = require('./routes/projectRoutes');
+app.use('/projects', projectRoutes);
+
 
 module.exports = app;
