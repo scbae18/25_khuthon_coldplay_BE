@@ -4,6 +4,7 @@ const morgan = require('morgan');
 const authRoutes = require('./routes/authRoutes');
 const plannerRoutes = require('./routes/plannerRoutes');
 const { swaggerUi, specs } = require('./swagger');
+const fundRoutes = require('./routes/fundRoutes');
 
 
 const app = express();
@@ -22,5 +23,7 @@ const projectRoutes = require('./routes/projectRoutes');
 app.use('/projects', projectRoutes);
 
 app.use('/planners', plannerRoutes);
+
+app.use('/fund',fundRoutes)
 
 module.exports = app;
