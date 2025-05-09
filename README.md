@@ -8,13 +8,6 @@
 ## ⚙️ 기술 스택
 
 ## API
-# 헅톱보기 포부: Farm Funding API
-
-> 통합된 노랑 펀딩 프로젝트를 위한 REST API 명세서입니다.
-> Base URL: `https://your-api-url.com`
-
----
-
 ## ✨ Auth - 인증
 
 | Method | Endpoint         | Description          |
