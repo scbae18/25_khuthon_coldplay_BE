@@ -19,7 +19,7 @@ const {
  * @swagger
  * /projects:
  *   post:
- *     summary: 새 프로젝트 등록
+ *     summary: 새 프로젝트 등록 (팀 모집 포함)
  *     tags: [Projects]
  *     security:
  *       - bearerAuth: []
@@ -29,6 +29,10 @@ const {
  *         application/json:
  *           schema:
  *             type: object
+ *             required:
+ *               - title
+ *               - description
+ *               - teamRecruit
  *             properties:
  *               title:
  *                 type: string
@@ -36,9 +40,13 @@ const {
  *               description:
  *                 type: string
  *                 example: 버려진 옥상에서 상추 키우기
- *               teamType:
- *                 type: string
- *                 example: 브랜딩형
+ *               teamRecruit:
+ *                 type: object
+ *                 example:
+ *                   브랜딩: 2
+ *                   일꾼: 3
+ *                   펀딩자: 1
+ *                 description: 모집하려는 역할과 인원 수
  *     responses:
  *       201:
  *         description: 등록된 프로젝트 반환
