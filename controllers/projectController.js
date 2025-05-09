@@ -1,4 +1,5 @@
 const Project = require('../models/Project');
+const User = require('../models/User');
 
 exports.createProject = async (req, res) => {
   try {
@@ -88,14 +89,12 @@ exports.getAllProjects = async (req, res) => {
       const teamRecruit = project.teamRecruit instanceof Map
         ? project.teamRecruit
         : new Map(Object.entries(project.teamRecruit || {}));
-  
       const recruitLimit = teamRecruit.get(role) || 0;
   
       // 🔧 teamMembers 변환
       const teamMembers = project.teamMembers instanceof Map
         ? project.teamMembers
         : new Map(Object.entries(project.teamMembers || {}));
-  
       const currentMembers = teamMembers.get(role) || [];
   
       if (currentMembers.includes(userId)) {
@@ -106,7 +105,7 @@ exports.getAllProjects = async (req, res) => {
         return res.status(400).json({ message: '해당 역할은 이미 마감되었습니다.' });
       }
   
-      // 역할에 유저 추가
+      // ✅ 1. 프로젝트에 유저 추가
       currentMembers.push(userId);
       teamMembers.set(role, currentMembers);
       project.teamMembers = teamMembers;
@@ -115,13 +114,24 @@ exports.getAllProjects = async (req, res) => {
       const teamCurrent = project.teamCurrent instanceof Map
         ? project.teamCurrent
         : new Map(Object.entries(project.teamCurrent || {}));
-  
       const currentCount = teamCurrent.get(role) || 0;
       teamCurrent.set(role, currentCount + 1);
       project.teamCurrent = teamCurrent;
   
       await project.save();
   
+      // ✅ 2. 사용자에 참여 프로젝트 정보 추가
+      const user = await User.findById(userId);
+      const alreadyJoined = user.joinedProjects?.some(
+        (p) => p.project.toString() === project._id.toString()
+      );
+  
+      if (!alreadyJoined) {
+        user.joinedProjects.push({ project: project._id, role });
+        await user.save();
+      }
+  
+      // ✅ 3. 응답
       res.json({
         message: `${role} 역할로 참가 완료`,
         projectId: project._id,

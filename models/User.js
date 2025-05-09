@@ -4,7 +4,20 @@ const bcrypt = require('bcryptjs');
 const userSchema = new mongoose.Schema({
   name: { type: String, required: true },  
   email: { type: String, required: true, unique: true },
-  password: { type: String, required: true }
+  password: { type: String, required: true },
+
+  // ✅ 프로젝트 참여 기록
+  joinedProjects: [
+    {
+      project: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'Project'
+      },
+      role: {
+        type: String
+      }
+    }
+  ]
 });
 
 // 🔐 비밀번호 비교 메서드
