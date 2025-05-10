@@ -5,7 +5,7 @@ const mongoose = require('mongoose');
 // 전체 프로젝트 목록 조회
 exports.getFundProjects = async (req, res) => {
     try {
-      const projects = await Project.find({BuildSuccess:true}).populate('owner', 'name').populate('plannerRef');
+      const projects = await Project.find({BuildSuccess:true}).populate('owner', 'name');
       res.json(projects);
     } catch (err) {
       console.error(err);
