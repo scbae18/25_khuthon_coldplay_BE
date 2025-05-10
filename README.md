@@ -1,10 +1,18 @@
 # 🌱FARM:ON - "농업을 ON하다, 가능성을 심다."
  2025 쿠톤(KHUThon) Coldplay 팀 - Backend
-## 프로젝트 개요
+![메인화면](main.png)
+
+Backend Github: https://github.com/scbae18/25_khuthon_coldplay_BE/tree/dev
+Frontend Github: https://github.com/jaewook2400/2025_coldplay_fe/tree/feature/jmlee
 
 ## 🔧 주요 기능
-1. 
-
+1. 농BTI 검사하기
+- 농업과 관련된 자신의 성향을 알아볼 수 있어요.
+2. 농사 펀딩 시작하기
+- 함께할 팀을 모집해요
+- 팀원이 참가해요
+- 프로젝트 계획서를 작성해요
+- 등록하고 투자자를 모집해요.
 
 ## ⚙️ 기술 스택
 ### ✅ 프론트엔드 (Frontend)
