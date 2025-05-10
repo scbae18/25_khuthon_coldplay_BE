@@ -2,8 +2,8 @@
  2025 쿠톤(KHUThon) Coldplay 팀 - Backend
 ![메인화면](main.png)
 
-Backend Github: https://github.com/scbae18/25_khuthon_coldplay_BE/tree/dev
-Frontend Github: https://github.com/jaewook2400/2025_coldplay_fe/tree/feature/jmlee
+- Backend Github: https://github.com/scbae18/25_khuthon_coldplay_BE/tree/dev
+- Frontend Github: https://github.com/jaewook2400/2025_coldplay_fe/tree/feature/jmlee
 
 ## 🔧 주요 기능
 1. 농BTI 검사하기
